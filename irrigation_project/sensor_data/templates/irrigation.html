@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigation Data - AUTO WATERING SYSTEM</title>
+    <style>
+        /* Styles tương tự như home.html */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #d85656;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav a {
+            background-color: #ffffff;
+            color: #d85656;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-align: center;
+        }
+
+        nav a:hover {
+            background-color: #ffe5e5;
+            color: #d85656;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d85656;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Irrigation Data</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'sensor_data_view' %}">Sensor Data</a>
+            <a href="{% url 'data_visualization' %}">Data Visualization</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Irrigation Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Water Used (L)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for irrigation in irrigation_data %}
+                <tr>
+                    <td>{{ irrigation.start_time }}</td>
+                    <td>{{ irrigation.end_time }}</td>
+                    <td>{{ irrigation.water_used }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

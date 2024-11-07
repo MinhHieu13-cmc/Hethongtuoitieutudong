@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data</title>
+    <style>
+        /* Basic Reset */
+        
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #d85656;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav a {
+            background-color: #ffffff;
+            color: #d85656;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-align: center;
+        }
+
+        nav a:hover {
+            background-color: #ffe5e5;
+            color: #d85656;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            margin-top: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Header Row Styling */
+        th {
+            background-color: #d85656;
+            color: #fff;
+            padding: 15px;
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        /* Data Row Styling */
+        td {
+            padding: 12px;
+            font-size: 1em;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Hover Effect on Rows */
+        tr:hover {
+            background-color: #f9e6e6;
+        }
+
+        /* Alternating Row Colors */
+        tr:nth-child(even) td {
+            background-color: #f7f7f7;
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<header>
+    <h1>Sensor Data</h1>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'irrigation_view' %}">Irrigation Data</a>
+        <a href="{% url 'data_visualization' %}">Data Visualization</a>
+    </nav>
+</header>
+<body>
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Soil Moisture</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <td>{{ item.timestamp }}</td>
+            <td>{{ item.temperature }} °C</td>
+            <td>{{ item.humidity }} %</td>
+            <td>{{ item.soil_moisture }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - AUTO WATERING SYSTEM</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #d85656;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav a {
+            background-color: #ffffff;
+            color: #d85656;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-align: center;
+        }
+
+        nav a:hover {
+            background-color: #ffe5e5;
+            color: #d85656;
+        }
+
+        .container, .section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .container img, .circuit-image {
+            max-width: 50%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .description {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        /* Main Content Section Styles */
+        .container, .section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .container img, .circuit-image {
+            max-width: 50%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .description {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .description h2 {
+            color: #d85656;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .description p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #666;
+            margin-top: 0;
+        }
+
+        /* Circuit Section Styles */
+        .circuit-section {
+            display: flex;
+            margin-top: 40px;
+        }
+
+        .hardware-list {
+            padding-left: 20px;
+        }
+
+        .hardware-list h3 {
+            font-size: 1.5em;
+            color: #d85656;
+        }
+
+        .hardware-list ul {
+            list-style-type: square;
+            color: #333;
+        }
+
+        /* Machine Learning Section */
+        .ml-section {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 2px solid #d85656;
+            margin-top: 40px;
+        }
+
+        .ml-section h2 {
+            color: #d85656;
+            font-size: 1.8em;
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 500px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .active-slide {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AUTO WATERING SYSTEM</h1>
+        <nav>
+            <a href="{% url 'sensor_data_view' %}">View Sensor Data</a>
+            <a href="{% url 'data_visualization' %}">Data Visualization</a>
+            <a href="{% url 'irrigation_view' %}">Irrigation Data</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <img src="{% static 'images/Watering.jpg' %}" alt="DHT22 Sensor">
+        <div class="description">
+            <h2>Project Description</h2>
+            <p>Dự án này sử dụng cả cảm biến DHT22 và cảm biến độ ẩm đất để giám sát nhiệt độ, độ ẩm không khí và độ ẩm của đất, phục vụ cho hệ thống tưới cây tự động. Hệ thống cung cấp dữ liệu thời gian thực cùng với các hình ảnh trực quan, giúp bạn theo dõi điều kiện môi trường một cách hiệu quả. Mục tiêu là duy trì điều kiện tưới nước tối ưu và hiểu rõ hơn về sự thay đổi của môi trường thông qua việc thu thập dữ liệu chính xác.</p>
+        </div>
+    </div>
+    <!-- Circuit Diagram Section -->
+    <div class="section circuit-section">
+        <img class="circuit-image" src="{% static 'images/CircuitDiagram.jpg' %}" alt="Circuit Diagram">
+        <div class="hardware-list">
+            <h3>Hardware Components Used</h3>
+            <ul>
+                <li>DHT22 Sensor</li>
+                <li>Soil Moisture Sensor</li>
+                <li>ESP32 Microcontroller</li>
+                <li>Relay Module</li>
+                <li>Water Pump</li>
+                <li>12V Power Supply</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Machine Learning Section with Slideshow -->
+    <div class="section ml-section">
+        <h2>Machine Learning Model: Decision Tree</h2>
+        <p>Our project uses a Decision Tree model to predict environmental conditions...</p>
+
+        <!-- Slideshow Container -->
+        <div class="slideshow-container">
+            <img class="slide active-slide" src="{% static 'images/DecisionTree1.jpg' %}" alt="Decision Tree Model Step 1">
+            <img class="slide" src="{% static 'images/DecisionTree2.png' %}" alt="Decision Tree Model Step 2">
+            <img class="slide" src="{% static 'images/DecisionTree3.jpg' %}" alt="Decision Tree Model Step 3">
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for Slideshow
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slide");
+
+        function showSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove("active-slide");
+                if (index === slideIndex) {
+                    slide.classList.add("active-slide");
+                }
+            });
+
+            // Move to the next slide, reset if it reaches the end
+            slideIndex = (slideIndex + 1) % slides.length;
+        }
+
+        // Set interval to change slides every 5 seconds
+        setInterval(showSlides, 5000);
+    </script>
+</body>
+</html>
