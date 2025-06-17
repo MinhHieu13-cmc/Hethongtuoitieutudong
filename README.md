@@ -1,7 +1,67 @@
-# Hethongtuoitieutudong
-Raspberry pi pico w
-main.py 
+Bạn hoàn toàn đúng! Trong file `README.md`, phần code của bạn cần được đưa vào dưới dạng khối mã để người đọc dễ theo dõi và sử dụng. Dưới đây là phiên bản hoàn chỉnh của `README.md`, bao gồm **toàn bộ nội dung đẹp mắt + mã nguồn `main.py`**:
 
+---
+
+# 🌱 Hệ Thống Tưới Tiêu Tự Động
+
+> **Sử dụng Raspberry Pi Pico W, MQTT và cảm biến DHT22 + độ ẩm đất**
+
+---
+
+## 🛠️ Thành phần phần cứng
+
+* Raspberry Pi Pico W
+* Cảm biến DHT22 (nhiệt độ & độ ẩm không khí)
+* Cảm biến độ ẩm đất (Soil Moisture Sensor)
+* Relay module (điều khiển máy bơm)
+* Máy bơm mini
+* Kết nối WiFi
+
+---
+
+## 🧠 Chức năng chính
+
+* Đọc cảm biến nhiệt độ, độ ẩm, độ ẩm đất
+* Gửi dữ liệu lên máy chủ thông qua MQTT
+* Nhận lệnh điều khiển từ xa để bật/tắt bơm
+* Gửi dữ liệu định kỳ mỗi 10 giây
+
+---
+
+## 📂 Cấu trúc thư mục
+
+```
+/Hethongtuoitieutudong
+├── main.py       # Mã nguồn chính cho Raspberry Pi Pico W
+└── README.md     # Tài liệu hướng dẫn
+```
+
+---
+
+## 🔄 Cấu hình MQTT
+
+* Broker: `broker.hivemq.com`
+* Gửi dữ liệu: `sensor/data`
+* Nhận điều khiển: `pump/control`
+
+---
+
+## ▶️ Cách chạy
+
+1. Kết nối phần cứng đúng sơ đồ chân (GPIO)
+2. Mở Thonny IDE, nạp `main.py` vào Pico W
+3. Đảm bảo đổi đúng WiFi:
+
+   ```python
+   connect_wifi("Samsung", "khongcho")
+   ```
+4. Xem dữ liệu trên MQTT client hoặc website
+
+---
+
+## 📜 Mã nguồn `main.py`
+
+```python
 import network
 import time
 from umqtt.simple import MQTTClient
@@ -28,43 +88,42 @@ def connect_wifi(ssid, password):
             time.sleep(1)
     print('Network config:', wlan.ifconfig())
 
-# Initialize MQTT client
-def connect_mqtt():
-    try:
-        client = MQTTClient("pico", "broker.hivemq.com", port=1883)
-        client.set_callback(on_message)  # Set callback for control command
-        client.connect()
-        client.subscribe(b"pump/control")  # Listen for control commands from Django
-        print("Connected to MQTT broker and subscribed to control channel")
-        return client
-    except Exception as e:
-        print("Error connecting to MQTT:", e)
-        return None
-
-# Callback to receive control commands from server
+# Callback to receive control commands
 def on_message(topic, msg):
     try:
         command = json.loads(msg)
         pump_status = command.get("pump_status")
-        
         if pump_status == "true":
-            relay.on()  # Turn on pump
+            relay.on()
             print("Pump turned ON by server command.")
         elif pump_status == "false":
-            relay.off()  # Turn off pump
+            relay.off()
             print("Pump turned OFF by server command.")
         else:
             print("Invalid command:", msg)
     except json.JSONDecodeError:
         print("JSON decode error:", msg)
 
-# Function to get current timestamp
+# MQTT connection
+def connect_mqtt():
+    try:
+        client = MQTTClient("pico", "broker.hivemq.com", port=1883)
+        client.set_callback(on_message)
+        client.connect()
+        client.subscribe(b"pump/control")
+        print("Connected to MQTT broker and subscribed to control channel")
+        return client
+    except Exception as e:
+        print("Error connecting to MQTT:", e)
+        return None
+
+# Get formatted time string
 def get_time():
     rtc = machine.RTC()
-    current_time = rtc.datetime()  # Returns tuple (year, month, day, weekday, hours, minutes, seconds, subseconds)
+    current_time = rtc.datetime()
     return "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(*current_time)
 
-# Main function
+# Main loop
 def main():
     connect_wifi("Samsung", "khongcho")
     client = connect_mqtt()
@@ -74,18 +133,12 @@ def main():
 
     while True:
         try:
-            # Read DHT22 sensor
             dht_sensor.measure()
             temp = dht_sensor.temperature()
             humidity = dht_sensor.humidity()
-            
-            # Read soil moisture sensor
-            soil_moisture = soil_moisture_sensor.read_u16()  # Value from 0 to 65535
-            
-            # Get current time
-            timestamp = get_time()  # Use function to get time
+            soil_moisture = soil_moisture_sensor.read_u16()
+            timestamp = get_time()
 
-            # Create JSON message to send sensor data
             message = {
                 "timestamp": timestamp,
                 "temperature": temp,
@@ -93,23 +146,36 @@ def main():
                 "soil_moisture": soil_moisture
             }
             json_message = json.dumps(message)
-            
-            # Publish data via MQTT
             client.publish(b"sensor/data", json_message)
             print("Data sent:", json_message)
-            
-            # Listen for commands from server
             client.check_msg()
 
         except OSError as e:
             print("Sensor error:", e)
-        
         except Exception as e:
             print("Error:", e)
-        
-        # Wait 10 seconds before reading and sending data again
+
         time.sleep(10)
 
-# Run the program
+# Run
 main()
+```
+
+---
+
+## 📬 Gửi lệnh điều khiển từ xa
+
+* Bật bơm:
+
+```json
+{"pump_status": "true"}
+```
+
+* Tắt bơm:
+
+```json
+{"pump_status": "false"}
+```
+
+---
 
