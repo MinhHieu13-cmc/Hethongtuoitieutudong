@@ -1,4 +1,3 @@
-Bạn hoàn toàn đúng! Trong file `README.md`, phần code của bạn cần được đưa vào dưới dạng khối mã để người đọc dễ theo dõi và sử dụng. Dưới đây là phiên bản hoàn chỉnh của `README.md`, bao gồm **toàn bộ nội dung đẹp mắt + mã nguồn `main.py`**:
 
 ---
 
